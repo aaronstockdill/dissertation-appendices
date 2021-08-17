@@ -1,0 +1,80 @@
+representation InOrder_Scheme = rep
+    modes 1;
+
+    essential type number, number list;
+
+    essential primitive define
+        where type = identifier list * sexp list -> statement,
+              occurrences = 1;
+    essential primitive inorder
+        where type = sexp -> number list,
+              occurrences = 3;
+
+    essential pattern eval_sexp
+        where type = 'a,
+              holes = [sexp : 1],
+              occurrences = 8;
+    essential pattern inorder_def
+        where type = statement,
+              occurrences = 1,
+              primitives = [(, ), define, inorder, tree, if,
+                            null?, let*, car, cadr, caddr,
+                            append, v, l, r, $nil, $quote,
+                            $quasiquote, $unquote];
+    essential pattern recursion
+        where type = statement,
+              holes = [statement : 1],
+              occurrences = 1;
+
+    instrumental primitive tree
+        where type = sexp,
+              occurrences = 5;
+    instrumental primitive $nil
+        where type = 'a list,
+              occurrences = 1;
+    instrumental primitive append
+        where type = 'a list list -> 'a list,
+              occurrences = 1;
+    instrumental primitive car
+        where type = 'a list -> 'a,
+              occurrences = 1;
+    instrumental primitive cdr
+        where type = 'a list -> 'a list,
+              occurrences = 0;
+    instrumental primitive if
+        where type = bool * 'a * 'a -> 'a,
+              occurrences = 1;
+    instrumental primitive let*
+        where type = (identifier * sexp) list * 'b -> 'b,
+              occurrences = 1;
+    instrumental primitive null?
+        where type = 'a list -> bool,
+              occurrences = 1;
+
+    relevant type bool;
+
+    relevant primitive v
+        where type = 'a,
+              occurrences = 2;
+    relevant primitives l, r
+        where type = sexp,
+              occurrences = 2;
+    relevant primitive $quasiquote
+        where type = sexp -> 'a list,
+              occurrences = 1;
+    relevant primitive $quote
+        where type = sexp -> 'a list,
+              occurrences = 1;
+    relevant primitive $unquote
+        where type = sexp -> 'a,
+              occurrences = 1;
+    relevant primitives (, )
+        where type = delimiter,
+              occurrences = 17;
+    relevant primitive cadr
+        where type = 'a list -> 'a,
+              occurrences = 1;
+    relevant primitive caddr
+        where type = 'a list -> 'a,
+              occurrences = 1;
+end;

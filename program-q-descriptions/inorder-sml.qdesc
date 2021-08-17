@@ -1,0 +1,89 @@
+representation InOrder_SML = rep
+    modes 1;
+
+    essential types int, int list, int tree;
+
+    essential primitive Branch
+        where type = 'a * 'a tree * 'a tree -> 'a tree,
+              occurrences = 2;
+    essential primitive Leaf
+        where type = 'a tree,
+              occurrences = 2;
+    essential primitive inorder
+        where type = 'a tree -> 'a list,
+              occurrences = 4;
+    essential primitive tree
+        where type = type -> type,
+              occurrences = 3;
+
+    essential pattern datatype
+        where type = statement,
+              holes = [guarded_datatype : #t,
+                       identifier : #t],
+              primitives = [datatype, =, of],
+              occurrences = 1;
+    essential pattern fun
+        where type = statement,
+              holes = [guarded_declaration : #t,
+                       identifer : #t, 'a : 1],
+              primitives = [fun, =],
+              occurrences = 3;
+    essential pattern inorder_def
+        where type = statement,
+              occurrences = 1,
+              primitives = [fun, inorder, =, |, (, ),
+                            Leaf, Branch, $nil, $cons,
+                            @, v, l, r];
+    essential pattern recursion
+        where type = statement,
+              holes = [statement : 1],
+              occurrences = 5;
+    essential pattern tree_datatype
+        where type = statement,
+              occurrences = 1,
+              primitives = [datatype, tree, =, |, of,
+                            $type-*, 'a, Branch, Leaf];
+
+
+    instrumental primitive $cons
+        where type = ('a * 'a list) -> 'a list,
+              occurrences = 1;
+    instrumental primitive $nil
+        where type = 'a list,
+              occurrences = 1;
+    instrumental primitive @
+        where type = ('a list * 'a list) -> 'a list,
+              occurrences = 1;
+
+    instrumental pattern guard
+        where type = guarded_declaration,
+              holes = [identifier : #t, 'a : 1],
+              primitives = [|, =],
+              occurrences = 1;
+    instrumental pattern typeguard
+        where type = guarded_datatype,
+              holes = [identifier : #t],
+              primitives = [|, of],
+              occurrences = 1;
+
+    relevant type bool;
+
+    relevant primitives l, r
+        where type = 'a tree,
+              occurrences = 2;
+    relevant primitive v
+        where type = 'a,
+              occurrences = 2;
+    relevant primitives (, )
+        where type = delimiter,
+              occurrences = 5;
+    relevant primitive =
+        where type = delimiter,
+              occurrences = 3;
+    relevant primitive of
+        where type = delimiter,
+              occurrences = 1;
+    relevant primitive |
+        where type = delimiter,
+              occurrences = 2;
+end;

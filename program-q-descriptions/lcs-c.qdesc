@@ -1,0 +1,186 @@
+representation LCS_C = rep
+    modes 1;
+
+    essential type char, int, char pointer;
+
+    essential primitive $type-*
+        where type = type -> type,
+              occurrences = 5;
+    essential primitive int
+        where type = identifier -> type,
+              occurrences = 15;
+    essential primitive lcs
+        where type = (char pointer * int *
+                      char pointer * int *
+                      char pointer pointer) -> int,
+              occurrences = 0;
+
+    essential pattern for
+        where type = statement,
+              holes = [block : 1, bool : 1, statement : 2],
+              primitives = [for, (, )],
+              occurrences = 2;
+    essential pattern funcdef
+        where type = statement,
+              holes = [block : 1, identifier : #t, type : #t],
+              primitives = [(, )],
+              occurrences = 1;
+    essential pattern if
+        where type = statement,
+              holes = [block : 2, bool : 1],
+              primitives = [if, else, (, )],
+              occurrences = 4;
+    essential pattern lcs_def
+        where type = statement,
+              occurrences = 1,
+              primitives = [int, lcs, char, $type-*, (, ),
+                            {, }, =, ==, <, ++, +, *, -, a,
+                            a_len, b, b_len, out, ss_len,
+                            grid, ravel, i, j, k, l, l1, l2,
+                            0, 1, sizeof, calloc, free];
+    essential pattern while
+        where type = statement,
+              holes = [bool : 1, statement : 1],
+              primitives = [while, (, )],
+              occurrences = 1;
+
+
+    instrumental primitive !=
+        where type = 'a * 'a -> bool,
+              occurrences = 0;
+    instrumental primitive $ptr-&
+        where type = 'a -> 'a pointer,
+              occurrences = 0;
+    instrumental primitive $ptr-*
+        where type = 'a pointer -> 'a,
+              occurrences = 2;
+    instrumental primitive 0
+        where type = int,
+              occurrences = 1;
+    instrumental primitive 1
+        where type = int,
+              occurrences = 21;
+    instrumental primitive <
+        where type = int * int -> bool,
+              occurrences = 0;
+    instrumental primitive ==
+        where type = 'a * 'a -> bool,
+              occurrences = 2;
+    instrumental primitive >
+        where type = int * int -> bool,
+              occurrences = 1;
+    instrumental primitive a
+        where type = char pointer,
+              occurrences = 3;
+    instrumental primitive a_len
+        where type = int,
+              occurrences = 5;
+    instrumental primitive b
+        where type = char pointer,
+              occurrences = 2;
+    instrumental primitive b_len
+        where type = int,
+              occurrences = 6;
+    instrumental primitive calloc
+        where type = int * int -> 'a pointer,
+              occurrences = 2;
+    instrumental primitive free
+        where type = 'a pointer -> void,
+              occurrences = 1;
+    instrumental primitive out
+        where type = char pointer pointer,
+              occurrences = 3;
+    instrumental primitive return
+        where type = 'a -> statement,
+              occurrences = 1;
+
+    instrumental pattern blockSingleStatement
+        where type = block,
+              holes = [statement : 1],
+              occurrences = 3;
+    instrumental pattern blocksFromStatements
+        where type = block,
+              holes = [statement : #t],
+              primitives = [{, }],
+              occurrences = 6;
+    instrumental pattern iddef
+        where type = statement,
+              holes = [identifier : 1, type : 1, 'a : 1],
+              primitives = [=],
+              occurrences = 10;
+    instrumental pattern index
+        where type = 'a,
+              holes = [int : 1, 'a pointer : 1],
+              occurrences = 13;
+    instrumental pattern writeIndexInc
+        where type = statement,
+              holes = [identifier : 4],
+              primitives = [++, =],
+              occurrences = 1;
+
+    relevant type bool, void;
+
+    relevant primitives (, )
+        where type = delimiter,
+              occurrences = 20;
+    relevant primitive *
+        where type = int * int -> int,
+              occurrences = 11;
+    relevant primitive +
+        where type = int * int -> int,
+              occurrences = 16;
+    relevant primitive ++
+        where type = int -> int,
+              occurrences = 2;
+    relevant primitive -
+        where type = int * int -> int,
+              occurrences = 0;
+    relevant primitive --
+        where type = int -> int,
+              occurrences = 5;
+    relevant primitive /
+        where type = (int * int) -> int,
+              occurrences = 0;
+    relevant primitive ;
+        where type = delimiter,
+              occurrences = 25;
+    relevant primitive =
+        where type = identifier * 'a -> 'a,
+              occurrences = 16;
+    relevant primitive NULL
+        where type = 'a,
+              occurrences = 0;
+    relevant primitives [, ]
+        where type = delimiter,
+              occurrences = 15;
+    relevant primitive grid
+        where type = int pointer,
+              occurrences = 11;
+    relevant primitive i
+        where type = int,
+              occurrences = 17;
+    relevant primitive j
+        where type = int,
+              occurrences = 16;
+    relevant primitive k
+        where type = int,
+              occurrences = 4;
+    relevant primitive l
+        where type = int,
+              occurrences = 2;
+    relevant primitives l1, l2
+        where type = int,
+              occurrences = 3;
+    relevant primitive ravel
+        where type = int,
+              occurrences = 10;
+    relevant primitive sizeof
+        where type = type -> int,
+              occurrences = 2;
+    relevant primitive ss_len
+        where type = int,
+              occurrences = 3;
+    relevant primitives {, }
+        where type = delimiter,
+              occurrences = 7;
+end;

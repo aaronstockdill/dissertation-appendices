@@ -1,0 +1,179 @@
+representation MergeSort_C = rep
+    modes 1;
+
+    essential types int, int pointer;
+
+    essential primitive $type-*
+        where type = type -> type,
+              occurrences = 4;
+    essential primitive int
+        where type = identifier -> type,
+              occurrences = 8;
+    essential primitive merge
+        where type = int pointer * int *
+                         int pointer * int *
+                             int pointer pointer -> void,
+              occurrences = 1;
+    essential primitive mergesort
+        where type = int pointer * int -> void,
+              occurrences = 2;
+
+    essential pattern funcdef
+        where type = statement,
+              holes = [block : 1,
+                       identifier : #t,
+                       type : #t],
+              primitives = [(, )],
+              occurrences = 2;
+    essential pattern if
+        where type = statement,
+              holes = [block : 2, bool : 1],
+              primitives = [if, else, (, )],
+              occurrences = 1;
+    essential pattern while
+        where type = statement,
+              holes = [block : 1, bool : 1],
+              primitives = [while, (, )],
+              occurrences = 1;
+
+    essential pattern merge_def
+        where type = statement,
+              occurrences = 1,
+              primitives = [void, merge, int, $type-*,
+                            list_1, len_1, list_2, len_2,
+                            out, (, ), {, }, =, $ptr-*,
+                            i, j, k, i2, j2, malloc, +, *,
+                            sizeof, while, <, &&,
+                            if, else, for];
+    essential pattern mergesort_def
+        where type = statement,
+              occurrences = 1,
+              primitives = [void, mergesort, int, $type-*,
+                            list, length, (, ), {, }, [, ],
+                            =, $ptr-&, 1, 2, mid, new, NULL,
+                            merge, i, <, <=, if, return, for,
+                            free];
+
+    instrumental primitive $ptr-&
+        where type = 'a -> 'a pointer, occurrences = 3;
+    instrumental primitive $ptr-*
+        where type = 'a pointer -> 'a, occurrences = 5;
+    instrumental primitives 1, 2
+        where type = int, occurrences = 2;
+    instrumental primitive <
+        where type = (int * int) -> bool,
+              occurrences = 5;
+    instrumental primitive <=
+        where type = (int * int) -> bool,
+              occurrences = 2;
+    instrumental primitives >, >=
+        where type = (int * int) -> bool,
+              occurrences = 0;
+    instrumental primitive NULL
+        where type = 'a,
+              occurrences = 1;
+    instrumental primitive free
+        where type = 'a pointer -> void,
+              occurrences = 1;
+    instrumental primitive length
+        where type = int,
+              occurrences = 6;
+    instrumental primitive list
+        where type = int pointer,
+              occurrences = 6;
+    instrumental primitive malloc
+        where type = int -> 'a pointer,
+              occurrences = 1;
+    instrumental primitive return
+        where type = 'a -> statement,
+              occurrences = 0;
+
+    instrumental pattern blockSingleStatement
+        where type = block,
+              holes = [statement : 1],
+              occurrences = 6;
+    instrumental pattern blocksFromStatements
+        where type = block,
+              holes = [statement : #t],
+              primitives = [{, }],
+              occurrences = 3;
+    instrumental pattern for
+        where type = statement,
+              holes = [block : 1, bool : 1, statement : 2],
+              primitives = [for, (, )],
+              occurrences = 3;
+    instrumental pattern iddef
+        where type = statement,
+              holes = [identifier : 1, type : 1, 'a : 1],
+              primitives = [=],
+              occurrences = 8;
+    instrumental pattern index
+        where type = 'a,
+              holes = [int : 1, 'a pointer : 1],
+              occurrences = 12;
+    instrumental pattern writeIndexInc
+        where type = statement,
+              holes = [identifier : 4],
+              primitives = [++, =],
+              occurrences = 4;
+
+    relevant types bool, void;
+
+    relevant primitive &&
+        where type = (bool * bool) -> bool,
+              occurrences = 1;
+    relevant primitive ||
+        where type = (bool * bool) -> bool,
+              occurrences = 0;
+    relevant primitives (, ), ;
+        where type = delimiter,
+              occurrences = 22;
+    relevant primitive *, /
+        where type = (int * int) -> int,
+              occurrences = 1;
+    relevant primitive +
+        where type = (int * int) -> int,
+              occurrences = 2;
+    relevant primitive -
+        where type = (int * int) -> int,
+              occurrences = 0;
+    relevant primitive ++
+        where type = int -> int,
+              occurrences = 9;
+    relevant primitive =
+        where type = (identifier * 'a) -> 'a,
+              occurrences = 14;
+    relevant primitive ==
+        where type = ('a * 'a) -> bool,
+              occurrences = 0;
+    relevant primitives [, ]
+        where type = delimiter,
+              occurrences = 14;
+    relevant primitive i
+        where type = int,
+              occurrences = 10;
+    relevant primitives j, k
+        where type = int,
+              occurrences = 5;
+    relevant primitives i2, j2
+        where type = int,
+              occurrences = 4;
+    relevant primitives len_1, len_2
+        where type = int,
+              occurrences = 4;
+    relevant primitives list_1, list_2, new
+        where type = int pointer,
+              occurrences = 4;
+    relevant primitive mid
+        where type = int,
+              occurrences = 6;
+    relevant primitive out
+        where type = int pointer pointer,
+              occurrences = 6;
+    relevant primitive sizeof
+        where type = type -> int,
+              occurrences = 1;
+    relevant primitives {, }
+        where type = delimiter,
+              occurrences = 5;
+end;

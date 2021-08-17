@@ -1,0 +1,184 @@
+representation LCS_SML = rep
+    modes 1;
+
+    essential type string;
+
+    essential primitive String_sub
+        where type = (string * int) -> char,
+              occurrences = 5;
+    essential primitive lcs
+        where type = string -> (string -> string),
+              occurrences = 0;
+
+    essential pattern fun
+        where type = statement,
+              holes = [guarded_declaration : #t, identifer : #t, 'a : 1],
+              primitives = [fun, =],
+              occurrences = 6;
+    essential pattern lcs_def
+        where type = statement,
+              occurrences = 1,
+              primitives = [fun, lcs, =, |, (, ), let, in,
+                            end, val, fn, =>, if, then, else,
+                            Int_max, xstring, ystring, xl,
+                            yl, table, i, j, k, ans, loopx,
+                            loopy, reconstruct, getTable,
+                            setTable, Array2_tabulate, $cons,
+                            Array2_RowMajor, Array2_sub,
+                            Array2_update, List_rev, $nil
+                            String_size, String_sub, 0, 1,
+                            String_implode, +, -, <>, _];
+    essential pattern pair
+        where type = ('a * 'b),
+              holes = ['a : 1, 'b : 1],
+              primitives = [(, )],
+              occurrences = 10;
+    essential pattern recursion
+        where type = statement,
+              holes = [statement : 1],
+              occurrences = 5;
+
+    instrumental types char, char list;
+
+    instrumental primitive $eq
+        where type = ('a * 'a) -> bool,
+              occurrences = 4;
+    instrumental primitive $nil
+        where type = 'a list,
+              occurrences = 1;
+    instrumental primitive +
+        where type = (int * int) -> int,
+              occurrences = 7;
+    instrumental primitive -
+        where type = (int * int) -> int,
+              occurrences = 16;
+    instrumental primitive 0
+        where type = int,
+              occurrences = 2;
+    instrumental primitive 1
+        where type = int,
+              occurrences = 25;
+    instrumental primitive <>
+        where type = ('a * 'a) -> bool,
+              occurrences = 0;
+    instrumental primitive String_implode
+        where type = char list -> string,
+              occurrences = 1;
+    instrumental primitive String_size
+        where type = string -> int,
+              occurrences = 2;
+    instrumental primitive if
+        where type = (bool * ('a * 'a)) -> 'a,
+              primitives = [then, else],
+              occurrences = 4;
+    instrumental primitive let
+        where type = (statements * 'a) -> 'a,
+              primitives = [in, end],
+              occurrences = 2;
+    instrumental primitive val
+        where type = (identifier * 'a) -> statement,
+              primitives = [=],
+              occurrences = 4;
+
+    instrumental pattern guard
+        where type = guarded_declaration,
+              holes = [identifier : #t, 'a : 1],
+              primitives = [|, =],
+              occurrences = 1;
+
+    relevant types bool, int, int array;
+
+    relevant primitives (, )
+        where type = delimiter,
+              occurrences = 37;
+    relevant primitive =
+        where type = delimiter,
+              occurrences = 11;
+    relevant primitive =>
+        where type = delimiter,
+              occurrences = 1;
+    relevant primitive Array2_RowMajor
+        where type = ArrayTraversal,
+              occurrences = 1;
+    relevant primitive Array2_sub
+        where type = 'a array * int * int -> 'a,
+              occurrences = 1;
+    relevant primitive Array2_tabulate
+        where type = ArrayTraversal
+                       -> (int * int * (int * int -> 'a))
+                         -> 'a array,
+              occurrences = 1;
+    relevant primitive Array2_update
+        where type = 'a array * int * int * 'a -> unit,
+              occurrences = 1;
+    relevant primitive Int_max
+        where type = (int * int) -> int,
+              occurrences = 1;
+    relevant primitive _
+        where type = identifier,
+              occurrences = 3;
+    relevant primitive ans
+        where type = char list,
+              occurrences = 6;
+    relevant primitive else
+        where type = delimiter,
+              occurrences = 5;
+    relevant primitive end
+        where type = delimiter,
+              occurrences = 2;
+    relevant primitive fn
+        where type = (identifier * 'a) -> ('b -> 'a),
+              primitives = [=>],
+              occurrences = 1;
+    relevant primitive getTable
+        where type = (int * int) -> int,
+              occurrences = 7;
+    relevant primitive i
+        where type = int,
+              occurrences = 24;
+    relevant primitive in
+        where type = delimiter,
+              occurrences = 2;
+    relevant primitive j
+        where type = int,
+              occurrences = 20;
+    relevant primitive k
+        where type = int,
+              ATTR;
+    relevant primitive loopx
+        where type = int -> unit,
+              occurrences = 3;
+    relevant primitive loopy
+        where type = int -> (int -> unit),
+              occurrences = 3;
+    relevant primitive reconstruct
+        where type = char list -> (int -> char list),
+              occurrences = 6;
+    relevant primitive setTable
+        where type = (int * int) -> (int -> unit),
+              occurrences = 3;
+    relevant primitive table
+        where type = int array,
+              occurrences = 3;
+    relevant primitive then
+        where type = delimiter,
+              occurrences = 5;
+    relevant primitive x
+        where type = int,
+              occurrences = 2;
+    relevant primitive xl
+        where type = int,
+              occurrences = 5;
+    relevant primitive xstring
+        where type = string,
+              occurrences = 5;
+    relevant primitive yl
+        where type = int,
+              occurrences = 5;
+    relevant primitive ystring
+        where type = string,
+              occurrences = 4;
+    relevant primitive |
+        where type = delimiter,
+              occurrences = 1;
+end;

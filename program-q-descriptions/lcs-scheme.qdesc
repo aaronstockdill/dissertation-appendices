@@ -1,0 +1,196 @@
+representation LCS_Scheme = rep
+    modes 1;
+
+    essential type string;
+
+    essential primitive define
+        where type = (identifier list * sexp list) -> statement,
+              occurrences = 7;
+    essential primitive lcs
+        where type = (string * string) -> string,
+              occurrences = 1;
+
+    essential pattern eval_sexp
+        where type = 'a,
+              holes = [sexp : 1],
+              occurrences = 57;
+    essential pattern lcs_def
+        where type = statement,
+              occurrences = 1,
+              primitives = [(, ), define, lcs, let*, unless,
+                            xstring, ystring, if, eq?, max,
+                            cons, xl, yl, x, y, i, j, v, sln,
+                            0, 1, +, -, make-table, get-index,
+                            set-index, loop-inner, loop-outer,
+                            reconstruct, list->string, $quote,
+                            string-length, string-ref, $nil,
+                            vector-unfold, vector-set!,
+                            vector-ref, make-vector];
+    essential pattern recursion
+        where type = statement,
+              holes = [statement : 1],
+              occurrences = 5;
+
+    instrumental type number;
+
+    instrumental primitive +
+        where type = number list -> number,
+              occurrences = 7;
+    instrumental primitive -
+        where type = number list -> number,
+              occurrences = 16;
+    instrumental primitive 0
+        where type = number,
+              occurrences = 2;
+    instrumental primitive 1
+        where type = number,
+              occurrences = 26;
+    instrumental primitive eq?
+        where type = 'a * 'a -> bool,
+              occurrences = 5;
+    instrumental primitive if
+        where type = bool * 'a * 'a -> 'a,
+              occurrences = 2;
+    instrumental primitive length
+        where type = 'a list -> number,
+              occurrences = 0;
+    instrumental primitive let*
+        where type = (identifier * sexp) list * 'b -> 'b,
+              occurrences = 1;
+    instrumental primitive list->string
+        where type = char list -> string,
+              occurrences = 1;
+    instrumental primitive max
+        where type = number list -> number,
+              occurrences = 1;
+    instrumental primitive string-length
+        where type = string -> number,
+              occurrences = 2;
+    instrumental primitive string-ref
+        where type = (string * number) -> char,
+              occurrences = 5;
+    instrumental primitive xstring
+        where type = string,
+              occurrences = 5;
+    instrumental primitive ystring
+        where type = string,
+              occurrences = 4;
+
+
+    relevant types bool, char, number vector;
+
+    relevant primitive $quote
+        where type = sexp -> 'a list,
+              occurrences = 1;
+    relevant primitives (, )
+        where type = delimiter,
+              occurrences = 92;
+    relevant primitive cond
+        where type = (bool * 'a) list -> 'a,
+              occurrences = 1;
+    relevant primitive cons
+        where type = ('a * 'a list) -> 'a list,
+              occurrences = 1;
+    relevant primitive get-index
+        where type = number * number -> number,
+              occurrences = 7;
+    relevant primitive i
+        where type = number,
+              occurrences = 25;
+    relevant primitive j
+        where type = number,
+              occurrences = 20;
+    relevant primitive k
+        where type = number,
+              occurrences = 5;
+    relevant primitive lambda
+        where type = identifer * identifier list * sexp list
+                       -> 'a -> 'b,
+              occurrences = 1;
+    relevant primitive loop-inner
+        where type = number * number -> unit,
+              occurrences = 3;
+    relevant primitive loop-outer
+        where type = number * number -> unit,
+              occurrences = 3;
+    relevant primitive make-table
+        where type = number * number * 'a
+                       -> 'a vector vector,
+              occurrences = 2;
+    relevant primitive make-vector
+        where type = number * 'a -> 'a vector,
+              occurrences = 1;
+    relevant primitive reconstruct
+        where type = char list * number * number * number
+                       -> char list,
+              occurrences = 5;
+    relevant primitive set-index
+        where type = number * number * number -> unit,
+              occurrences = 3;
+    relevant primitive sln
+        where type = char list,
+              occurrences = 5;
+    relevant primitive table
+        where type = number vector vector,
+              occurrences = 3;
+    relevant primitive unless
+        where type = bool * sexp list -> 'a,
+              occurrences = 2;
+    relevant primitive v
+        where type = number,
+              occurrences = 4;
+    relevant primitive vector-ref
+        where type = 'a vector * number -> 'a,
+              occurrences = 3;
+    relevant primitive vector-set
+        where type = 'a vector * number * a -> unit,
+              occurrences = 1;
+    relevant primitive vector-unfold
+        where type = (number -> 'a * number) -> 'a vector,
+              occurrences = 1;
+    relevant primitives x, y
+        where type = number,
+              occurrences = 2;
+    relevant primitive xl
+        where type = number,
+              occurrences = 5;
+    relevant primitive yl
+        where type = number,
+              occurrences = 4;
+
+    relevant pattern get-index_def
+        where type = statement,
+              occurrences = 1,
+              primitives = [(, ), define, get-index, i, j,
+                            vector-ref, table];
+    relevant pattern loop-inner_def
+        where type = statement,
+              occurrences = 1,
+              primitives = [(, ), define, loop-inner, i, j,
+                            unless, if, eq?, max, +, -, 1,
+                            xstring, ystring, yl, string-ref,
+                            get-index, set-index];
+    relevant pattern loop-outer_def
+        where type = statement,
+              occurrences = 1,
+              primitives = [(, ), define, loop-outer, i, +,
+                            unless, eq?, 1, xl, loop-inner];
+    relevant pattern make-table_def
+        where type = statement,
+              occurrences = 1,
+              primitives = [(, ), define, make-table, x, y, v,
+                            vector-unfold, make-vector, lambda,
+                            i];
+    relevant pattern reconstruct_def
+        where type = statement,
+              occurrences = 1,
+              primitives = [(, ), define, reconstruct, sln,
+                            i, j, k, if, eq?, cons, cond,
+                            get-index, string-ref, -, 0, 1,
+                            xstring, ystring];
+    relevant pattern set-index_def
+        where type = statement,
+              occurrences = 1,
+              primitives = [(, ), define, set-index, i, j, v,
+                            vector-set!, vector-ref, table];
+end;

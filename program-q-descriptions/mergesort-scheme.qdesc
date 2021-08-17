@@ -1,0 +1,106 @@
+representation MergeSort_Scheme = rep
+    modes 1;
+
+    essential types number, number list;
+
+    essential primitive mergesort
+        where type = number list -> number list,
+              occurrences = 3;
+    essential primitive merge
+        where type = number list * number list -> number list,
+              occurrences = 4;
+    essential primitive split
+        where type = 'a list -> 'a list * 'a list,
+              occurrences = 3;
+    essential primitive define
+        where type = identifier list * sexp list -> statement,
+              occurrences = 3;
+    essential primitive cons
+        where type = 'a * 'a list -> 'a list,
+              occurrences = 4;
+
+    essential pattern eval_sexp
+        where type = 'a, holes = [sexp : 1], occurrences = 38;
+    essential pattern recursion
+        where type = statement,
+              holes = [statement : 1],
+              occurrences = 3;
+
+    essential pattern mergesort_def
+        where type = statement,
+              occurrences = 1,
+              primitives = [
+                  (, ), define, mergesort, lst, cond,
+                  null?, eq?, else, let*, length, car, cdr,
+                  split, merge, splits, xs, ys, 1];
+    essential pattern merge_def
+        where type = statement,
+              primitives = [fun, merge, =, |, (, ), <=, if,
+                            then, else, $cons, $nil, x, y,
+                            $openlist, $closelist, xs, ys];
+    essential pattern split_def
+        where type = statement,
+              primitives = [fun, split, =, |, (, ), xs, ys,
+                            let, in, end, val, $cons, $nil,
+                            $openlist, $closelist, x, y, zs];
+
+    instrumental primitive <=
+        where type = number list -> bool, occurrences = 1;
+    instrumental primitives <, >=, >
+        where type = number list -> bool, occurrences = 0;
+    instrumental primitive cond
+        where type = (bool * 'a) list -> 'a,
+              occurrences = 3;
+    instrumental primitive let*
+        where type = (identifier * sexp) list * 'b -> 'b,
+              occurrences = 3;
+    instrumental primitive null?
+        where type = 'a list -> bool, occurrences = 4;
+    instrumental primitive eq?
+        where type = number * number -> bool,
+              occurrences = 2;
+    instrumental primitive length
+        where type = 'a list -> number, occurrences = 2;
+    instrumental primitive car
+        where type = 'a list -> 'a, occurrences = 5;
+    instrumental primitive cdr
+        where type = 'a list -> 'a list, occurrences = 4;
+    instrumental primitive 1
+        where type = number, occurrences = 1;
+    instrumental primitive nil
+        where type = 'a list, occurrences = 3;
+    instrumental primitive else
+        where type = bool, occurrences = 3;
+    instrumental primitive lst
+        where type = number list, occurrences = 6;
+    instrumental primitive xs
+        where type = number list, occurrences = 17;
+    instrumental primitive ys
+        where type = number list, occurrences = 10;
+
+    relevant type bool;
+
+    relevant primitives x, y
+        where type = number, occurrences = 3;
+    relevant primitive rest
+        where type = number list, occurrences = 2;
+    relevant primitive splits
+        where type = number list * number list,
+              occurrences = 6;
+    relevant primitive if
+        where type = bool * 'a * 'a -> 'a, occurrences = 1;
+    relevant primitive cadr
+        where type = 'a list -> 'a, occurrences = 1;
+    relevant primitive cddr
+        where type = 'a list -> 'a list, occurrences = 1;
+    relevant primitive $quote
+        where type = sexp -> 'a list, occurrences = 1;
+    relevant primitive $quasiquote
+        where type = sexp -> 'a list, occurrences = 1;
+    relevant primitive $unquote
+        where type = sexp -> 'a, occurrences = 1;
+    relevant primitive $pair
+        where type = 'a * 'a -> ('a * 'a), occurrences = 1;
+    relevant primitives (, )
+        where type = delimiter, occurrences = 73;
+end;

@@ -1,0 +1,108 @@
+representation MergeSort_SML = rep
+    modes 1;
+
+    essential types int, int list;
+
+    essential primitive mergesort
+        where type = int list -> int list,
+              occurrences = 5;
+    essential primitive merge
+        where type = int list -> int list -> int list,
+              occurrences = 6;
+    essential primitive split
+        where type = int list -> (int list * int list),
+              occurrences = 5;
+    essential primitive $cons
+        where type = 'a * 'a list -> 'a list,
+              occurrences = 10;
+
+    essential pattern fun
+        where type = statement,
+              holes = [identifer : #t,
+                       guarded_declaration : #t,
+                       'a : 1],
+              primitives = [fun, =],
+              occurrences = 3;
+    essential pattern recursion
+        where type = statement,
+              holes = [statement : 1],
+              occurrences = 5;
+    essential pattern pair
+        where type = 'a * 'b,
+              holes = ['a : 1, 'b : 1],
+              primitives = [(, )],
+              occurrences = 7;
+
+    essential pattern mergesort_def
+        where type = statement,
+              occurrences = 1,
+              primitives = [fun, mergesort, =, |,
+                            let, in, end, val, (, ),
+                            $nil, $openlist, $closelist,
+                            split, merge,
+                            lst, x, xs, ys, xs', ys'];
+    essential pattern merge_def
+        where type = statement,
+              occurrences = 1,
+              primitives = [fun, merge, =, |, (, ),
+                            if, then, else, $cons, <=,
+                            $nil, $openlist, $closelist,
+                            xs, ys, x, y];
+    essential pattern split_def
+        where type = statement,
+              occurrences = 1,
+              primitives = [fun, split, =, |, (, ),
+                            let, in, end, val, $cons,
+                            $nil, $openlist, $closelist,
+                            x, y, xs, ys, zs];
+
+    instrumental primitive $nil
+        where type = 'a list, occurrences = 8;
+    instrumental primitive if
+        where type = bool * 'a * 'a -> 'a,
+              primitives = [then, else],
+              occurrences = 1;
+    instrumental primitive let
+        where type = statements * 'a -> 'a,
+              primitives = [in, end],
+              occurrences = 2;
+    instrumental primitive val
+        where type = identifier * 'a -> statement,
+              primitives = [=],
+              occurrences = 3;
+    instrumental primitive <=
+        where type = int * int -> bool, occurrences = 1;
+    instrumental primitives <, >=, >
+        where type = int * int -> bool, occurrences = 0;
+    instrumental primitive $eq
+        where type = 'a * 'a -> bool, occurrences = 0;
+
+    instrumental pattern guard
+        where type = guarded_declaration,
+              holes = [identifier : #t, 'a : 1],
+              primitives = [|, =],
+              occurrences = 6;
+
+    relevant type bool;
+
+    relevant primitive x
+        where type = int, occurrences = 11;
+    relevant primitive y
+        where type = int, occurrences = 6;
+    relevant primitives xs, ys
+        where type = int list, occurrences = 9;
+    relevant primitives zs, xs', ys', lst
+        where type = int list, occurrences = 2;
+    relevant primitives (, )
+        where type = delimiter, occurrences = 18;
+    relevant primitives [, ]
+        where type = delimiter, occurrences = 4;
+    relevant primitive =
+        where type = delimiter, occurrences = 12;
+    relevant primitives then, else
+        where type = delimiter, occurrences = 1;
+    relevant primitives in, end
+        where type = delimiter, occurrences = 2;
+    relevant primitive |
+        where type = delimiter, occurrences = 6;
+end;

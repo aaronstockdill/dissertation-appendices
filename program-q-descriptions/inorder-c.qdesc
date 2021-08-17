@@ -1,0 +1,172 @@
+representation InOrder_C = rep
+    modes 1;
+
+    essential type int, int pointer, struct_tree_s;
+
+    essential primitive $type-*
+        where type = type -> type,
+              occurrences = 7;
+    essential primitive inorder
+        where type = struct_tree_s pointer
+                         * int pointer pointer -> int,
+              occurrences = 2;
+    essential primitive int
+        where type = identifier -> type,
+              occurrences = 8;
+    essential primitives struct, tree_s
+        where type = identifier -> type,
+              occurrences = 2;
+
+    essential pattern for
+        where type = statement,
+              holes = [block : 1, bool : 1, statement : 2],
+              primitives = [for, (, )],
+              occurrences = 2;
+    essential pattern funcdef
+        where type = statement,
+              holes = [block: 1, identifier: #t, type: #t],
+              primitives = [(, )],
+              occurrences = 1;
+    essential pattern if
+        where type = statement,
+              holes = [block : 2, bool : 1],
+              primitives = [if, else, (, )],
+              occurrences = 1;
+    essential pattern inorder_def
+        where type = statement,
+              occurrences = 1,
+              primitives = [int, inorder, struct_tree_s,
+                            $type-*, (, ), {, }, =, ==, <,
+                            +, ++, ->, &, t, out,
+                            left_size, right_size,
+                            left_traversal, right_traversal,
+                            left, right, value, i, j, k,
+                            $ptr-*, NULL, 0, 1, free, malloc,
+                            sizeof, if, return, for];
+
+    instrumental primitive 0
+        where type = int,
+              occurrences = 1;
+    instrumental primitive NULL
+        where type = 'a,
+              occurrences = 3;
+    instrumental primitive t
+        where type = struct_tree_s pointer,
+              occurrences = 4;
+    instrumental primitive value
+        where type = int,
+              occurrences = 2;
+    instrumental primitives left, right
+        where type = struct_tree_s pointer,
+              occurrences = 2;
+    instrumental primitive out
+        where type = int pointer pointer,
+              occurrences = 5;
+    instrumental primitive $ptr-&
+        where type = 'a -> 'a pointer,
+              occurrences = 2;
+    instrumental primitive $ptr-*
+        where type = 'a pointer -> 'a,
+              occurrences = 4;
+    instrumental primitive ->
+        where type = ('a pointer * identifier) -> 'b,
+              occurrences = 3;
+    instrumental primitive malloc
+        where type = int -> 'a pointer,
+              occurrences = 1;
+    instrumental primitive free
+        where type = 'a pointer -> void,
+              occurrences = 2;
+    instrumental primitive return
+        where type = 'a -> statement,
+              occurrences = 2;
+
+    instrumental pattern blockSingleStatement
+        where type = block,
+              holes = [statement : 1],
+              occurrences = 3;
+    instrumental pattern blocksFromStatements
+        where type = block,
+              holes = [statement : #t],
+              primitives = [{, }],
+              occurrences = 1;
+    instrumental pattern declareStruct
+        where type = statement,
+              holes = [identifier : #t, type : #t],
+              primitives = [struct, {, }],
+              occurrences = 1;
+    instrumental pattern iddef
+        where type = statement,
+              holes = [identifier : 1, type : 1, 'a : 1],
+              primitives = [=],
+              occurrences = 7;
+    instrumental pattern index
+        where type = 'a,
+              holes = [int : 1, 'a pointer : 1],
+              occurrences = 5;
+    instrumental pattern writeIndexInc
+        where type = statement,
+              holes = [identifier : 4],
+              primitives = [++, =],
+              occurrences = 2;
+
+    relevant type bool;
+
+    relevant primitive *
+        where type = int * int -> int,
+              occurrences = 1;
+    relevant primitive +
+        where type = int * int -> int,
+              occurrences = 2;
+    relevant primitive -
+        where type = int * int -> int,
+              occurrences = 0;
+    relevant primitive ++
+        where type = int -> int,
+              occurrences = 5;
+    relevant primitive 1
+        where type = int,
+              occurrences = 1;
+    relevant primitives (, )
+        where type = delimiter,
+              occurrences = 15;
+    relevant primitive ;
+        where type = delimiter,
+              occurrences = 17;
+    relevant primitive ==
+        where type = 'a * 'a -> bool,
+              occurrences = 1;
+    relevant primitive <
+        where type = int * int -> bool,
+              occurrences = 2;
+    relevant primiitves <=, >, >=
+        where type = int * int -> bool
+              occurrences = 0;
+    relevant primitive =
+        where type = identifier * 'a -> 'a,
+              occurrences = 6;
+    relevant primitives [, ]
+        where type = delimiter,
+              occurrences = 5;
+    relevant primitives i, j
+        where type = int,
+              occurrences = 4;
+    relevant primitive k
+        where type = int,
+              occurrences = 5;
+    relevant primitives left_size, right_size
+        where type = int,
+              occurrences = 3;
+    relevant primitives left_traversal, right_traversal
+        where type = int pointer,
+              occurrences = 4;
+    relevant primitive sizeof
+        where type = type -> int,
+              occurrences = 1;
+    relevant primitives {, }
+        where type = delimiter,
+              occurrences = 2;
+    relevant primitives &&, ||
+        where type = bool * bool -> bool,
+              occurrences = 0;
+end;
