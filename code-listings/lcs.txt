@@ -1,0 +1,5 @@
+The longest common subsequence (or LCS) of groups A and B is the longest group of elements from A and B that are common between the two groups and in the same order in each group. For example, the sequences "1234" and "1224533324" have an LCS of "1234".
+
+For a string example, consider the sequences "thisisatest" and "testing123testing". An LCS would be "tsitest".
+
+In this puzzle, your code only needs to deal with strings. Write a function which returns an LCS of two strings (case-sensitive). You don't need to show multiple LCS's.

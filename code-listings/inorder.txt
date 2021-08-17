@@ -1,0 +1,1 @@
+Define a binary tree, then a preorder traversal upon the tree. 
