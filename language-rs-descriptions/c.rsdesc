@@ -1,0 +1,70 @@
+representation C = rep
+    modes 1;
+
+    import terms as primitives from LatinAlphabet;
+    import terms as primitives from RealNumerals;
+
+    types bool, char, int, void, 'a pointer;
+
+    primitives ;, [, ], (, ), {, } where type = delimiter;
+    primitive = where type = identifier * 'a -> 'a;
+    primitive return where type = 'a -> statement;
+    primitive &type-* where type = type -> type;
+    primitives int, char, struct
+        where type = identifier -> type;
+
+    primitives ==, != where type = 'a * 'a -> bool;
+    primitives <, <=, >, >= where type = int * int -> bool;
+    primitives &&, || where type = bool * bool -> bool;
+    primitives *, -, *, / where type = int * int -> int;
+    primitives ++, -- where type = int -> int;
+
+    primitive -> where type = 'a pointer * identifier -> 'b;
+    primitive &ptr-* where type = 'a pointer -> 'a;
+    primitive &ptr-& where type = 'a -> 'a pointer;
+
+    primitive NULL where type = 'a;
+    primitive malloc where type = int -> 'a pointer;
+    primitive calloc where type = int * int -> 'a pointer;
+    primitive free where type = 'a pointer -> void;
+
+    pattern blockSingleStatement
+        where type = block, holes = [statement: 1];
+    pattern blocksFromStatements
+        where type = block,
+              holes = [statement: #t],
+              primitives = [{, }];
+    pattern declareStruct
+        where type = statement,
+              holes = [identifier: #t, type: #t],
+              primitives = [struct, {, }];
+    pattern funcdef
+        where type = statement,
+              holes = [block: 1, identifier: #t, type: #t],
+              primitives = [(, )];
+    pattern iddef
+        where type = statement,
+              holes = [identifier: 1, type: 1, 'a: 1],
+              primitives = [=];
+
+    pattern if where type = statement,
+                     holes = [block: 2, bool: 1],
+                     primitives = [if, else, (, )];
+    pattern switch where type = statement,
+                         holes = [block: #t, 'a: #t],
+                         primitives = [switch, case, break];
+    pattern while where type = statement,
+                        holes = [block: 1, bool: 1],
+                        primitives = [while, (, )];
+    pattern for
+        where type = statement,
+              holes = [block: 1, bool: 1, statement: 2],
+              primitives = [for, (, )];
+
+    pattern index where type = 'a,
+                        holes = [int: 1, 'a pointer: 1];
+    pattern writeIndexInc
+        where type = statement,
+              holes = [identifier: 1],
+              primitives = [++, =];
+end;

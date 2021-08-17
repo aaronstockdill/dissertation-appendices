@@ -1,0 +1,59 @@
+representation Scheme = rep
+    modes 1;
+
+    import terms as primitives from LatinAlphabet;
+    import terms as primitives from RealNumerals;
+
+    types bool, char, number, string,
+          'a vector, 'a list, 'a ref;
+
+    primitives (, ) where type = delimiter;
+    primitives <, <=, >, >= where type = number list -> bool;
+    primitives +, -, *, / where type = number list -> number;
+
+    primitive eq? where type = ('a * 'a) -> bool;
+    primitive if where type = (bool * 'a * 'a) -> 'a;
+    primitive unless where type = (bool * sexp list) -> 'a;
+    primitive cond where type = (bool * 'a) list -> 'a;
+    primitive define
+        where type = (identifier list * sexp list)
+                         -> statement;
+    primitive lambda
+        where type = identifier * identifier list * sexp list
+                         -> ('a -> 'b);
+    primitive let*
+        where type = (identifier * sexp) list * 'b -> 'b;
+
+    primitive $nil where type = 'a list;
+    primitive $pair where type = ('a * 'b) -> ('a * 'b);
+    primitive $quote, $quasiquote where type = sexp -> 'a list;
+    primitive $unquote where type = sexp -> 'a;
+
+    primitive cons where type = ('a * 'a list) -> 'a list;
+    primitives car, cadr, caddr where type = 'a list -> a;
+    primitives cdr, cddr where type = 'a list -> 'a list;
+    primitive append where type = ('a list) list -> 'a list;
+    primitive reverse where type = 'a list -> 'a list;
+    primitive null? where type = 'a list -> bool;
+    primitive length where type = 'a list -> number;
+    primitive max where type = number list -> number;
+
+    primitive list->string where type = char list -> string;
+    primitive string-length where type = string -> number;
+    primitive string-ref
+        where type = string * number -> char;
+
+    primitive make-vector
+        where type = (number * 'a) -> 'a vector;
+    primitive vector-ref
+        where type = 'a vector * number -> 'a;
+    primitive vector-set
+        where type = 'a vector * number * 'a -> unit;
+    primitive vector-unfold
+        where type = (number -> 'a) * number -> 'a vector;
+
+    pattern eval_sexp where type = 'a,
+                            holes = [sexp: 1];
+    pattern recursion where type = statement,
+                            holes = [statement: 1];
+end;

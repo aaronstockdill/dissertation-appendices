@@ -1,0 +1,75 @@
+representation StandardML = rep
+    modes 1
+
+    import terms as primitives from LatinAlphabet;
+    import terms as primitives from RealNumerals;
+
+    types bool, char, int, string,
+          'a array, 'a list, 'a ref, 'a option;
+
+    primitives |, (, ), [, ], =, =>, then, else, of, in, end
+        where type = delimiter;
+    primitive _ where type = identifier;
+    primitive if where type = (bool * ('a * 'a)) -> 'a,
+                       primitives = [then, else];
+    primitive let where type = (statements * 'a) -> 'a,
+                        primitives = [in, end];
+    primitive val
+        where type = ('identifier * 'a) -> statement,
+              primitives = [=];
+    primitive fn
+        where type = (identifier * 'a) -> ('b -> 'a),
+              primitives = [=>];
+
+    primitives $eq, <> where type = ('a * 'a) -> bool;
+    primitives <, <=, >, >=
+        where type = (int * int) -> bool;
+    primitives  +, -, Int_max
+        where type = (int * int) -> int;
+
+    primitive $nil where type = 'a list;
+    primitive $cons where type = ('a * 'a list) -> 'a list;
+    primitive @ where type = ('a list * 'a list) -> 'a list;
+    primitive List_rev where type = 'a list -> 'a list;
+
+    primitive SOME where type = 'a -> 'a option;
+    primitive NONE where type = 'a option;
+    primitive ref where type = 'a -> 'a ref;
+    primitive ! where type = 'a ref -> 'a;
+
+    primitive String_size where type = string -> int;
+    primitive String_sub
+        where type = (string * int) -> char;
+    primitive String_implode
+        where type = char list -> string;
+
+    primitive Array2_RowMajor where type ArrayTraversal;
+    primitive Array2_sub
+        where type ('a array * (int * int)) -> 'a;
+    primitive Array2_tabulate
+        where type = ArrayTraversal
+                         -> (int * int * ((int * int) -> 'a))
+                             -> 'a array;
+    primitive Array2_update
+        where type = ('a array * int * int * 'a) -> unit;
+
+    pattern datatype where type = statement,
+                           holes = [guarded_datatype: #t,
+                                    identifier: #t],
+                           primitives = [datatype, =, of];
+    pattern typeguard where type = guarded_datatype,
+                            holes = [identifier: #t],
+                            primitives = [|, of];
+    pattern fun where type = statement,
+                      holes = [guarded_declaration: #t,
+                               identifer: #t, 'a: 1],
+                      primitives = [fun, =];
+    pattern guard where type = guarded_declaration,
+                        holes = [identifier: #t, 'a: 1],
+                        primitives = [|, =];
+    pattern pair where type = ('a * 'b),
+                       holes = ['a: 1, 'b: 1],
+                       primitives = [,. )];
+    pattern recursion where type = statement,
+                            holes = [statement: 1];
+end;
